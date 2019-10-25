@@ -8,11 +8,7 @@ public class Pizza {
     private String navn;
     private int nummer;
     private String toppings;
-    //private String tomatSauce;
-    //private String ost;
-    //private String oregano;
     private double pris;
-    //private String[] toppingListe;
 
     public Pizza(int nummer, String navn, String toppings, double pris) {
         this.navn = navn;

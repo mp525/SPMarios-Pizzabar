@@ -1,14 +1,17 @@
 package mariospizzabar;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
-
 public class MariosPizzaBar {
+
     private static int count = 0;
+    static Scanner myScan = new Scanner(System.in);
+    static MenuKort menukort = new MenuKort();
+    static Bestillingsliste bestillinger = new Bestillingsliste();
 
     public static void main(String[] args) {
-        start();
-        
+
         //Vi laver alle 14 pizzaobjekter.
         Pizza pizza1 = new Pizza(1, "Vesuvio", "tomatsauce, ost, skinke, oregano", 57.0);
         Pizza pizza2 = new Pizza(2, "Amerikaner", "tomatsauce, ost, oksefars, oregano", 53.0);
@@ -24,8 +27,8 @@ public class MariosPizzaBar {
         Pizza pizza12 = new Pizza(12, "Le Blissola", "tomatsauce, ost, skinke, rejer, oregano", 61.0);
         Pizza pizza13 = new Pizza(13, "Venezia", "tomatsauce, ost, skinke, bacon, oregano", 61.0);
         Pizza pizza14 = new Pizza(14, "Mafia", "tomatsauce, ost, pepperoni, bacon, løg, oregano", 61.0);
-        
-        MenuKort menukort = new MenuKort(); //Alle pizzaer bliver sat på menukortet.
+
+        //Vi tilføjer alle pizzaer til menukortet.
         menukort.tilføjPizza(pizza1);
         menukort.tilføjPizza(pizza2);
         menukort.tilføjPizza(pizza3);
@@ -40,29 +43,68 @@ public class MariosPizzaBar {
         menukort.tilføjPizza(pizza12);
         menukort.tilføjPizza(pizza13);
         menukort.tilføjPizza(pizza14);
-        System.out.println(menukort.toString());
-        
-        Bestillingsliste bestillinger = new Bestillingsliste();
-        bestillinger.tilføjBestilling(new Bestilling("en nr 1 vesuvio til Aase kl 17:30", ++count)); //Skal indeholde en ArrayList med de pizzaer der skal med
-        bestillinger.tilføjBestilling(new Bestilling("to nr 7 og en nr 4 navn kurt 17:40", ++count)); //Alfonso skal kun skrive pizzaerne, kundenavn og tidspunkt
-        System.out.println(bestillinger.toString());
-        
+
+        start();
+
         //Når bestilling fjernes gemmes ordren så man kan lave statestik 
-        
-        
+        //ArrayList addAll metode til at komme pizzaer fra bestillinger ind i gamleOrdrer
     }
-    public static void start(){
-        Scanner myScan = new Scanner(System.in);
-        System.out.println("Velkommen.\nFor ny bestilling tast 1\n");
-        
-        intCheck(myScan.nextInt());
-        
-        
-    }
-    public static void intCheck(int userInt){
-        if (userInt == 1){
-            
+
+    public static void start() {
+        System.out.println("Velkommen!\n");
+        boolean isOn = true;
+        while (isOn) {
+            System.out.println(bestillinger.toString());
+            System.out.println("Menu:\nFor ny bestilling tast 1\nFor at fjerne en bestilling tast 2\nFor at se menukortet tast 3\nFor at slukke tast 0");
+            int userInt = myScan.nextInt();
+            if (userInt == 1) {
+                lavBestilling();
+            } else if (userInt == 2) {
+                fjernBestilling();
+            } else if (userInt == 3) {
+                System.out.println(menukort.toString());
+            } else if (userInt == 0) {
+                isOn = false;
+            }
         }
+
+    }
+
+    public static void lavBestilling() {
+        ArrayList<Pizza> pizzaList = new ArrayList();
+        System.out.print("Hvor mange pizzaer?: ");
+        int antalPizza = myScan.nextInt();
+        myScan.nextLine();
+        for (int i = 0; i < antalPizza; i++) {
+            System.out.print("Skriv pizza nummer: ");
+            int pizNr = myScan.nextInt();
+            myScan.nextLine();
+            Pizza pizza = menukort.tjekPizza(pizNr);
+
+            if (pizza == null) {
+                System.out.println("Pizza findes ikke!");
+                i--;
+            }
+            pizzaList.add(pizza);
+        }
+        System.out.println("Skriv kundenavn og afhentningstidspunkt: ");
+        String kundeOgTidspunkt = myScan.nextLine();
+        Bestilling bestilling = new Bestilling(pizzaList, kundeOgTidspunkt, ++count);
+        bestillinger.tilføjBestilling(bestilling);
+        System.out.println(bestillinger.toString());
+    }
+
+    public static void fjernBestilling() {
+        System.out.println("Hvilken bestilling skal fjernes?: ");
+        int userNummer = myScan.nextInt();
+        myScan.nextLine();
+        bestillinger.fjernBestilling(userNummer);
+        System.out.println("Bestilling " + userNummer + " er blevet fjernet.");
+
+    }
+
+    public static void lavStatestik() { //*placeholder for Daniel*
+
     }
 
 }

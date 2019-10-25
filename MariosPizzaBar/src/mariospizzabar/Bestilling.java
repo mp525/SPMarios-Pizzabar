@@ -4,23 +4,46 @@ import java.util.ArrayList;
 
 
 public class Bestilling {
-    private int count;
-    private String inhold;
+    private int nummer;
+    private String indhold;
     private ArrayList<Pizza> pizzaer;
 
-    public Bestilling(ArrayList<Pizza> pizzaer, String inhold, int count) {
-        this.inhold = inhold;
-        this.count = count;
+    public Bestilling(ArrayList<Pizza> pizzaer, String inhold, int nummer) {
+        this.indhold = inhold;
+        this.nummer = nummer;
         this.pizzaer = pizzaer;
+        
     }
 
-    public int getCount() {
-        return count;
+    public int getNummer() {
+        return nummer;
     }
+    public void nummerMinus(){
+        this.nummer = nummer--;
+    }
+
+    public ArrayList<Pizza> getPizzaer() {
+        return pizzaer;
+    }
+
+    public void setNummer(int nummer) {
+        this.nummer = nummer;
+    }
+
+    public String getIndhold() {
+        return indhold;
+    }
+
+    public void setIndhold(String indhold) {
+        this.indhold = indhold;
+    }
+    
 
     @Override
     public String toString() {
-        return inhold + " " + count;
+        String result;
+        result = getPizzaer() + " Til " + indhold;
+        return result;
     }
     
     

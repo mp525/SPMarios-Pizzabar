@@ -3,8 +3,7 @@ package mariospizzabar;
 import java.util.ArrayList;
 
 
-public class Bestillingsliste { //Her bliver bestillinger skrevet ind og håndteret af alfonso alt efter behov.
-    //private Pizza bestilling;
+public class Bestillingsliste { //Her bliver bestillinger skrevet ind og håndteret af Alfonso alt efter behov.
     private ArrayList<Bestilling> bestillinger = new ArrayList(); //Bestillinger er en ArrayList med strings da en bestilling kan se ud på mange måder. fx "1 vesuvio og 1 carbona".
 
     public Bestillingsliste() {
@@ -15,12 +14,14 @@ public class Bestillingsliste { //Her bliver bestillinger skrevet ind og håndte
         bestillinger.add(bestilling);
     }
     public void fjernBestilling(int nummer){
+        Bestilling bestillingFjern = null;
         for (Bestilling bestilling : bestillinger){
-            if (bestilling.getCount() == nummer){
-                bestillinger.remove(bestilling);
+            if (bestilling.getNummer() == nummer){
+                bestillingFjern = bestilling;
             }
         }
-        //bestillinger.remove();
+        bestillinger.remove(bestillingFjern);
+        
     }
 
     @Override
@@ -28,7 +29,7 @@ public class Bestillingsliste { //Her bliver bestillinger skrevet ind og håndte
         int count = 1;
         String bestillinger = "Bestillinger: \n";
         for (Bestilling bestilling : this.bestillinger){
-            bestillinger += bestilling.getCount() + ": " + bestilling.toString() + "\n";
+            bestillinger += bestilling.getNummer() + ":" + bestilling.toString() + "\n";
             count++;
         }
         return bestillinger;
