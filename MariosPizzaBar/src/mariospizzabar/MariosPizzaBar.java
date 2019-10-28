@@ -1,7 +1,14 @@
 package mariospizzabar;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import mariospizzabar.PizzaFile.FileImporter;
+import mariospizzabar.PizzaFile.StringParserHelper;
+
 
 public class MariosPizzaBar {
 
@@ -9,9 +16,10 @@ public class MariosPizzaBar {
     static Scanner myScan = new Scanner(System.in);
     static MenuKort menukort = new MenuKort();
     static Bestillingsliste bestillinger = new Bestillingsliste();
+    static File filename = new File("gamleOrdrer.txt");
 
-    public static void main(String[] args) {
-
+    public static void main(String[] args) throws IOException {
+        
         //Vi laver alle 14 pizzaobjekter.
         Pizza pizza1 = new Pizza(1, "Vesuvio", "tomatsauce, ost, skinke, oregano", 57.0);
         Pizza pizza2 = new Pizza(2, "Amerikaner", "tomatsauce, ost, oksefars, oregano", 53.0);
@@ -50,12 +58,12 @@ public class MariosPizzaBar {
         //ArrayList addAll metode til at komme pizzaer fra bestillinger ind i gamleOrdrer
     }
 
-    public static void start() {
+    public static void start() throws IOException {
         System.out.println("Velkommen!\n");
         boolean isOn = true;
         while (isOn) {
             System.out.println(bestillinger.toString());
-            System.out.println("Menu:\nFor ny bestilling tast 1\nFor at fjerne en bestilling tast 2\nFor at se menukortet tast 3\nFor at slukke tast 0");
+            System.out.println("Menu:\nFor ny bestilling tast 1\nFor at fjerne en bestilling tast 2\nFor at se menukortet tast 3\nFor at lave statestik tryk 4\nFor at slukke tast 0");
             int userInt = myScan.nextInt();
             if (userInt == 1) {
                 lavBestilling();
@@ -63,11 +71,12 @@ public class MariosPizzaBar {
                 fjernBestilling();
             } else if (userInt == 3) {
                 System.out.println(menukort.toString());
+            } else if (userInt == 4) {
+                lavStatestik();
             } else if (userInt == 0) {
                 isOn = false;
             }
         }
-
     }
 
     public static void lavBestilling() {
@@ -94,17 +103,29 @@ public class MariosPizzaBar {
         System.out.println(bestillinger.toString());
     }
 
-    public static void fjernBestilling() {
+    public static void fjernBestilling() throws IOException {
+        //File file = new File("gamleOrdrer.txt");
         System.out.println("Hvilken bestilling skal fjernes?: ");
         int userNummer = myScan.nextInt();
         myScan.nextLine();
+        String pizzaIBestilling = bestillinger.getBestilling(userNummer);
+        try (BufferedWriter br = new BufferedWriter(new FileWriter(filename, true))){
+            br.write(pizzaIBestilling);
+        
+        }
         bestillinger.fjernBestilling(userNummer);
         System.out.println("Bestilling " + userNummer + " er blevet fjernet.");
-
+        
+        
+        
+        
     }
 
-    public static void lavStatestik() { //*placeholder for Daniel*
-
+    public static void lavStatestik() throws IOException { 
+        FileImporter.readFile(); //Udregner samlet omsætning
+        System.out.println("Den mest populære pizza er: " + PizzaStatistik.populær(StringParserHelper.addPizzaNumber()));
+       
+        
     }
 
 }

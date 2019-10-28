@@ -19,9 +19,27 @@ public class Bestillingsliste { //Her bliver bestillinger skrevet ind og håndte
             if (bestilling.getNummer() == nummer){
                 bestillingFjern = bestilling;
             }
+            //bestilling.getPizzaer(); add til fil gamleOrdrer
         }
+        
         bestillinger.remove(bestillingFjern);
         
+    }
+    public String getBestilling(int nummer){
+        String bestillingUd = "";
+        //ArrayList<Pizza> bestilString = null;
+        for (Bestilling bestilling : bestillinger) {
+            if (bestilling.getNummer() == nummer){
+                bestillingUd += bestilling.getPizzaer();
+                //bestilling.getPizzaer().addAll(bestilString);
+                
+                
+                /*for (Pizza pizza : bestilString) {
+                bestillingUd = pizza.toString();
+                }*/
+            }
+        }
+        return bestillingUd;
     }
 
     @Override

@@ -22,8 +22,12 @@ public class Bestilling {
         this.nummer = nummer--;
     }
 
-    public ArrayList<Pizza> getPizzaer() {
-        return pizzaer;
+    public String getPizzaer() {
+        String result = "";
+        for (Pizza pizza : pizzaer) {
+            result += pizza.toString();
+        }
+        return result;
     }
 
     public void setNummer(int nummer) {
@@ -37,6 +41,7 @@ public class Bestilling {
     public void setIndhold(String indhold) {
         this.indhold = indhold;
     }
+    
     
 
     @Override
